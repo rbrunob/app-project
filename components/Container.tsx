@@ -1,12 +1,6 @@
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import tw from 'twrnc';
 
 export const Container = ({ children }: { children: React.ReactNode }) => {
-  return <SafeAreaView style={styles.container}>{children}</SafeAreaView>;
+  return <SafeAreaView style={tw`flex-1 my-6 mx-4`}>{children}</SafeAreaView>;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});
