@@ -1,22 +1,17 @@
 import { API_URL } from '@env';
 import axios, { isAxiosError } from 'axios';
 
-interface IGetPhotos {
-  albumID?: number;
-  limit?: number;
+interface IGetAlbums {
+  authorIDFromAlbum: string;
 }
 
-export const GetPhotosByAlbum = async ({ albumID, limit }: IGetPhotos) => {
+export const GetAlbumsByAuthor = async ({ authorIDFromAlbum }: IGetAlbums) => {
   if (!API_URL) {
     throw new Error('API_URL is not defined');
   }
 
   try {
-    const response = await axios.get(`${API_URL}/photos`, {
-      params: {
-        albumId: albumID,
-        _limit: limit,
-      },
+    const response = await axios.get(`${API_URL}/users/${authorIDFromAlbum}/albums`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },

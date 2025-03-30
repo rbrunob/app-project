@@ -41,7 +41,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
   };
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={tw`w-full h-auto mb-4 relative`}>
       <View style={tw`flex flex-row items-center justify-between w-full`}>
         <TextInput
           editable
@@ -65,7 +65,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
 
       <View
         style={tw.style(
-          'bg-white p-3 flex flex-col items-start justify-start gap-4 rounded-br-lg rounded-bl-lg',
+          'bg-white p-3 flex flex-col items-start justify-start gap-4 rounded-br-lg rounded-bl-lg absolute w-full z-10 top-9',
           {
             hidden: filteredAuthors.length === 0 || modalOpen === false,
             flex: filteredAuthors.length > 0 && modalOpen === true,
@@ -78,7 +78,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
               key={index}
               href={{ pathname: '/authors/[authorId]', params: { authorId: author.id } }}
               asChild>
-              <Button classnames="w-full flex flex-row items-center justify-start gap-1">
+              <Button style={tw`w-full flex flex-row items-center justify-start gap-1`}>
                 <AvatarCustom label={author.name.slice(0, 2)} size={32} shape="rounded" />
                 <View style={tw`flex flex-col items-start justify-start ml-2`}>
                   <Text style={tw`text-start text-[#444] font-bold text-sm`}>{author.name}</Text>

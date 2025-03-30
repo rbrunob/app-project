@@ -1,35 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 
 type ScreenContentProps = {
-  title: string;
-  path: string;
   children?: React.ReactNode;
 };
 
-export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
+export const ScreenContent = ({ children }: ScreenContentProps) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.separator} />
-      {children}
-    </View>
+    <GestureHandlerRootView style={{ flexGrow: 1, paddingBottom: 90 }}>
+      <ScrollView contentContainerStyle={styles.container}>{children}</ScrollView>
+    </GestureHandlerRootView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  separator: {
-    backgroundColor: '#d1d5db',
-    height: 1,
-    marginVertical: 30,
-    width: '80%',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    flexGrow: 1,
+    gap: 36,
   },
 });
