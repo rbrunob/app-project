@@ -17,7 +17,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
 
   const handleSearchQuery = async (query: string) => {
     try {
-      const response = await GetAuthors();
+      const response = await GetAuthors({ limit: 10 });
 
       if (response) {
         const authors = response;
