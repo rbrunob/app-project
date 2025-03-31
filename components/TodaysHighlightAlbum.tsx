@@ -1,7 +1,10 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { Link } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Image, Text, View } from 'react-native';
 import tw from 'twrnc';
+
+import { Button } from './Button';
 
 import { GetPhotosByAlbum } from '~/services/GET/photos-by-album';
 import { GetUniqueAlbum } from '~/services/GET/unique-album';
@@ -35,7 +38,7 @@ export default function TodaysHighlightAlbum({ albumIDSelected }: { albumIDSelec
 
   const fetchUser = useCallback(async () => {
     try {
-      const response = await GetUniqueAuthor({ auhtorID: String(album?.userId) });
+      const response = await GetUniqueAuthor({ authorID: String(album?.userId) });
 
       if (response) {
         const authors = response;
@@ -74,30 +77,35 @@ export default function TodaysHighlightAlbum({ albumIDSelected }: { albumIDSelec
   return (
     <View style={tw`w-full flex flex-col items-start justify-start gap-3`}>
       <Text style={tw`text-[#444] font-bold text-base`}>Nosso destaque de hoje</Text>
+      <Link
+        asChild
+        href={{ pathname: '/albums/[albumId]', params: { albumId: String(album?.id) } }}>
+        <Button>
+          <View style={tw`flex flex-wrap flex-row gap-3 items-start justify-start`}>
+            <View
+              style={tw.style(
+                'flex items-center justify-center bg-gray-300 rounded-lg relative w-full h-36'
+              )}>
+              <Image
+                source={{ uri: photo?.thumbnailUrl }}
+                alt={photo?.title}
+                style={tw`w-full h-full rounded-lg`}
+              />
 
-      <View style={tw`flex flex-wrap flex-row gap-3 items-start justify-start`}>
-        <View
-          style={tw.style(
-            'flex items-center justify-center bg-gray-300 rounded-lg relative w-full h-36'
-          )}>
-          <Image
-            source={{ uri: photo?.thumbnailUrl }}
-            alt={photo?.title}
-            style={tw`w-full h-full rounded-lg`}
-          />
-
-          <LinearGradient
-            colors={['#000000ab', 'transparent']}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            style={tw`absolute bottom-0 w-full px-2 py-3 h-20 rounded-lg flex flex-col items-start justify-end`}>
-            <Text style={tw`w-full text-white font-bold text-base`}>{album?.title}</Text>
-            <Text style={tw`w-full text-white font-normal text-sm`}>
-              Álbum por <Text style={tw`font-bold`}>{author?.name}</Text>
-            </Text>
-          </LinearGradient>
-        </View>
-      </View>
+              <LinearGradient
+                colors={['#000000ab', 'transparent']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 0, y: 0 }}
+                style={tw`absolute bottom-0 w-full px-2 py-3 h-20 rounded-lg flex flex-col items-start justify-end`}>
+                <Text style={tw`w-full text-white font-bold text-base`}>{album?.title}</Text>
+                <Text style={tw`w-full text-white font-normal text-sm`}>
+                  Álbum por <Text style={tw`font-bold`}>{author?.name}</Text>
+                </Text>
+              </LinearGradient>
+            </View>
+          </View>
+        </Button>
+      </Link>
     </View>
   );
 }

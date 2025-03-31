@@ -1,7 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useCallback, useEffect, useState } from 'react';
-import { Text, View, Modal, TouchableOpacity, Image } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, Modal, Text, TouchableOpacity, View } from 'react-native';
 import tw from 'twrnc';
 
 import { Button } from './Button';
@@ -14,35 +14,16 @@ import { IAlbum } from '~/types/album';
 import { IAuthor } from '~/types/author';
 import { IPhoto } from '~/types/photo';
 
-interface HighlightPhotoFieldProps {
-  albumIDSelected: string;
-}
-
-export default function HighlightPhotoField({ albumIDSelected }: HighlightPhotoFieldProps) {
-  const [albums, setAlbums] = useState<IAlbum>();
-  const [photos, setPhotos] = useState<IPhoto[]>([]);
+export default function GalleryAlbum({ albumIDSelected }: { albumIDSelected: string }) {
+  const [album, setAlbum] = useState<IAlbum>();
   const [author, setAuthor] = useState<IAuthor>();
+  const [photos, setPhotos] = useState<IPhoto[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<IPhoto | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const fetchGetAuhtorByAlbum = useCallback(
-    async (authorID: number) => {
-      try {
-        const response = await GetUniqueAuthor({ authorID: String(authorID) });
-
-        if (response) {
-          setAuthor(response[0]);
-        }
-      } catch (error) {
-        console.error('Error fetching author by album:', error);
-      }
-    },
-    [albums?.id]
-  );
-
-  const fetchPhotosByAlbum = useCallback(async () => {
+  const fetchPhotosData = async () => {
     try {
-      const response = await GetPhotosByAlbum({ albumID: albums?.id as number, limit: 2 });
+      const response = await GetPhotosByAlbum({ albumID: album?.id, limit: 16 });
 
       if (response) {
         const updatedPhotos = response.map((photo: IPhoto) => ({
@@ -54,33 +35,47 @@ export default function HighlightPhotoField({ albumIDSelected }: HighlightPhotoF
         setPhotos(updatedPhotos);
       }
     } catch (error) {
-      console.error('Error fetching photos by album:', error);
+      console.error('Error fetching photos data:', error);
     }
-  }, [albums?.id]);
+  };
 
-  const fetchAlbumsByID = useCallback(async () => {
+  const fetchAuthorData = async () => {
+    try {
+      const response = await GetUniqueAuthor({
+        authorID: String(album?.userId),
+      });
+
+      if (response) {
+        setAuthor(response[0]);
+      }
+    } catch (error) {
+      console.error('Error fetching author data:', error);
+    }
+  };
+
+  const fetchAlbumData = async () => {
     try {
       const response = await GetUniqueAlbum({ albumID: albumIDSelected });
 
       if (response) {
-        setAlbums(response[0]);
+        setAlbum(response[0]);
 
         if (response[0]?.userId) {
-          fetchGetAuhtorByAlbum(response[0]?.userId);
+          fetchAuthorData();
         }
 
         if (response[0]?.id) {
-          fetchPhotosByAlbum();
+          fetchPhotosData();
         }
       }
     } catch (error) {
-      console.error('Error fetching albums:', error);
+      console.error('Error fetching album data:', error);
     }
-  }, [albumIDSelected]);
+  };
 
   useEffect(() => {
-    fetchAlbumsByID();
-  }, [fetchAlbumsByID]);
+    fetchAlbumData();
+  }, [albumIDSelected]);
 
   const handlePressPhoto = (photo: IPhoto) => {
     setSelectedPhoto(photo);
@@ -89,8 +84,12 @@ export default function HighlightPhotoField({ albumIDSelected }: HighlightPhotoF
 
   return (
     <>
-      <View style={tw`flex flex-col items-center justify-center`}>
-        <View style={tw`flex flex-row flex-wrap gap-3 w-full`}>
+      <View>
+        <Text style={tw`text-[#444] font-normal text-sm text-start w-full`}>
+          Foto por <Text style={tw`font-bold`}>{author?.name}</Text>
+        </Text>
+
+        <View style={tw`flex-row flex-wrap justify-between mt-2 gap-y-3`}>
           {photos.map((photo, index) => (
             <Button
               onPress={() => handlePressPhoto(photo)}
@@ -98,9 +97,6 @@ export default function HighlightPhotoField({ albumIDSelected }: HighlightPhotoF
               style={tw`flex flex-col items-center justify-center w-[48%]`}>
               <View style={tw`flex flex-col items-center justify-center w-full`}>
                 <Photo photo={photo} />
-                <Text style={tw`text-[#444] font-normal text-sm text-start w-full`}>
-                  Foto por <Text style={tw`font-bold`}>{author?.name}</Text>
-                </Text>
               </View>
             </Button>
           ))}

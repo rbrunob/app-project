@@ -2,10 +2,10 @@ import { API_URL } from '@env';
 import axios, { isAxiosError } from 'axios';
 
 interface IGetUniqueAuthor {
-  auhtorID: string;
+  authorID: string;
 }
 
-export const GetUniqueAuthor = async ({ auhtorID }: IGetUniqueAuthor) => {
+export const GetUniqueAuthor = async ({ authorID }: IGetUniqueAuthor) => {
   if (!API_URL) {
     throw new Error('API_URL is not defined');
   }
@@ -13,7 +13,7 @@ export const GetUniqueAuthor = async ({ auhtorID }: IGetUniqueAuthor) => {
   try {
     const response = await axios.get(`${API_URL}/users`, {
       params: {
-        id: auhtorID,
+        id: authorID,
       },
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

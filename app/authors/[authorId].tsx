@@ -1,16 +1,16 @@
 import { useLocalSearchParams } from 'expo-router';
-import { Text } from 'react-native';
 
 import { Container } from '~/components/Container';
-import { ScreenContent } from '~/components/ScreenContent';
+import Search from '~/components/Search';
+import WelcomeText from '~/components/WelcomeText';
 
 export default function AuthorPage() {
   const { authorId } = useLocalSearchParams();
 
   return (
     <Container>
-      <ScreenContent path="app/index.tsx" title="AuthorPage" />
-      <Text>Author ID: {authorId}</Text>
+      <Search placeholder="Conhece algum dos nossos artistas?" />
+      <WelcomeText authorIDSelected={authorId as string} />
     </Container>
   );
 }

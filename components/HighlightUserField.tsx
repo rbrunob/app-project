@@ -59,7 +59,8 @@ export default function HighlightUserField({ authorID }: HighlightUserFieldProps
 
   const fetchUserHighlight = useCallback(async () => {
     try {
-      const response = await GetUniqueAuthor({ auhtorID: authorID });
+      const authorIDSelected = authorID;
+      const response = await GetUniqueAuthor({ authorID: authorIDSelected });
 
       if (response) {
         const authorData = response[0];

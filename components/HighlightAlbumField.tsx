@@ -26,7 +26,7 @@ export default function HighlightAlbumField({ albumIDSelected }: HighlightAlbumF
   const fetchGetAuhtorByAlbum = useCallback(
     async (authorID: number) => {
       try {
-        const response = await GetUniqueAuthor({ auhtorID: String(authorID) });
+        const response = await GetUniqueAuthor({ authorID: String(authorID) });
 
         if (response) {
           setAuthor(response[0]);
@@ -90,7 +90,7 @@ export default function HighlightAlbumField({ albumIDSelected }: HighlightAlbumF
           </Text>
         </View>
         <Link
-          href={{ pathname: '/albums/[albumId]', params: { albumId: String(albums?.userId) } }}
+          href={{ pathname: '/albums/[albumId]', params: { albumId: String(albums?.id) } }}
           asChild>
           <Button
             style={tw`bg-[#1DA1F2] flex flex-row item-center justify-between gap-2 p-2 rounded`}>
