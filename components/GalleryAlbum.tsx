@@ -60,11 +60,8 @@ export default function GalleryAlbum({ albumIDSelected }: { albumIDSelected: str
       if (response) {
         setAlbum(response[0]);
 
-        if (response[0]?.userId) {
-          fetchAuthorData();
-        }
-
         if (response[0]?.id) {
+          fetchAuthorData();
           fetchPhotosData();
         }
       }
@@ -86,7 +83,7 @@ export default function GalleryAlbum({ albumIDSelected }: { albumIDSelected: str
     <>
       <View>
         <Text style={tw`text-[#444] font-normal text-sm text-start w-full`}>
-          Foto por <Text style={tw`font-bold`}>{author?.name}</Text>
+          Galeria de <Text style={tw`font-bold`}>{author?.name}</Text>
         </Text>
 
         <View style={tw`flex-row flex-wrap justify-between mt-2 gap-y-3`}>

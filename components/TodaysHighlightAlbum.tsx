@@ -57,11 +57,8 @@ export default function TodaysHighlightAlbum({ albumIDSelected }: { albumIDSelec
         const albums = response;
         setAlbum(albums[0]);
 
-        if (albums[0]?.userId) {
-          fetchUser();
-        }
-
         if (albums[0]?.id) {
+          fetchUser();
           fetchPhotosByAlbum();
         }
       }

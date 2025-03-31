@@ -37,11 +37,11 @@ export default function AuthorPage() {
       <ScreenContent>
         <WelcomeText authorIDSelected={authorId as string} />
         <TodaysHighlightAlbum albumIDSelected={String(Math.floor(Math.random() * 10 + 1))} />
-        {albums.map((album) => (
-          <HighlightAlbumField key={album.id} albumIDSelected={String(album.id)} />
+        {albums.map((album, index) => (
+          <HighlightAlbumField key={index} albumIDSelected={String(album.id)} />
         ))}
-        {albums.map((album) => (
-          <GalleryAlbum albumIDSelected={String(album.id)} />
+        {albums.map((album, index) => (
+          <GalleryAlbum key={index} albumIDSelected={String(album.id)} />
         ))}
       </ScreenContent>
     </Container>

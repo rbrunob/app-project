@@ -73,7 +73,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
         )}>
         <Text style={tw`font-medium text-sm text-start`}>Sugestões de pesquisa:</Text>
         <View style={tw`flex flex-col gap-4 w-full items-start justify-start`}>
-          {filteredAuthors.map((author, index: number) => (
+          {filteredAuthors.map((author, index) => (
             <Link
               key={index}
               href={{ pathname: '/authors/[authorId]', params: { authorId: author.id } }}

@@ -65,11 +65,8 @@ export default function HighlightPhotoField({ albumIDSelected }: HighlightPhotoF
       if (response) {
         setAlbums(response[0]);
 
-        if (response[0]?.userId) {
-          fetchGetAuhtorByAlbum(response[0]?.userId);
-        }
-
         if (response[0]?.id) {
+          fetchGetAuhtorByAlbum(response[0]?.userId);
           fetchPhotosByAlbum();
         }
       }
