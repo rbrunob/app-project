@@ -84,7 +84,9 @@ export default function HighlightAlbumField({ albumIDSelected }: HighlightAlbumF
     <View style={tw`flex flex-col items-center justify-center`}>
       <View style={tw`flex flex-row items-center justify-between w-full mb-4`}>
         <View style={tw`flex flex-col items-start justify-center`}>
-          <Text style={tw`text-[#444] font-bold text-base`}>{albums?.title}</Text>
+          <Text style={tw`text-[#444] font-bold text-base text-wrap max-w-72`}>
+            {albums?.title}
+          </Text>
           <Text style={tw`text-[#444] font-normal text-sm`}>
             Álbum por <Text style={tw`font-bold`}>{author?.name}</Text>
           </Text>
